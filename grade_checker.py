@@ -54,12 +54,13 @@ def sendNotification(username):
     
 def main():
     # Read in username and password
-    f = open("user.txt")
-    user = f.read().strip()
+    f = open("user_info.txt")
+    text = f.read().strip()
     f.close()
-    f = open("moodle_password.txt")
-    password = f.read().strip()
-    f.close()
+    s = text.split()
+    user = s[0]
+    password = s[1]
+    
 
     # login and get the moodle page
     page = loginAndGetPage(user, password)
