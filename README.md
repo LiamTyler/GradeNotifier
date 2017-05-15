@@ -17,6 +17,9 @@ To run this, you need to do the following:
 1. Add a file called "user_info.txt" in the same directory as the program. Only add the following on the first line: [user] [password]
 2. It should be able to run now anything you use the one of the following commands:
 > ./grade_checker.py
+
+or
+
 > python3 grade_checker.py
 
 The first time you run it, just downloads your grades into a file called: "grades.txt". Running it successive times will detect changes in your grades
