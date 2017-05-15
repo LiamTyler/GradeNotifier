@@ -1,5 +1,38 @@
 from html.parser import HTMLParser
 
+from html.parser import HTMLParser
+
+class Form:
+    def __init__(self):
+        self.name = ""
+        self.action = ""
+        self.inputs = []
+
+class FormHTMLParser(HTMLParser):
+    def __init__(self):
+        HTMLParser.__init__(self)
+        self.forms = []
+        self.current_form = None
+        
+    def handle_starttag(self, tag, attrs):
+        if tag == "form":
+            self.current_form = Form()
+            for name, val in attrs:
+                if name == "name":
+                    self.current_form.name = name
+                elif name == "action":
+                    self.current_form.action = val
+        elif tag == "input":
+            tmp = {}
+            for name, val in attrs:
+                tmp[name] = val
+            self.current_form.inputs.append(tmp)
+
+    def handle_endtag(self, tag):
+        if tag == "form":
+            self.forms.append(self.current_form)
+
+
 class MoodleGradeParser(HTMLParser):
     def __init__(self, inputfile=None, outputfile=None):
         HTMLParser.__init__(self)
