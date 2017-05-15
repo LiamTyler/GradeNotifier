@@ -27,6 +27,6 @@ The first time you run it, just downloads your grades into a file called: "grade
 #### Making it auto run on linux machines with Cron
 If you want to make it automatically run every so often, I used Cron to do that. Cron is already installed on most linux / ubuntu machines. To set it up, just do the following on a linux computer that is always on:
 1. crontab -e
-2. Add in a line: "*/10 * * * * cd /absolute/path/to/program/directory/ && python3 grade_checker.py > /dev/null
+2. Add in a line: */10 * * * * cd /absolute/path/to/program/directory/ && python3 grade_checker.py > /dev/null
 
 Now every 10 minutes it will run
