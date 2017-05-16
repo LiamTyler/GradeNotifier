@@ -1,7 +1,5 @@
 from html.parser import HTMLParser
 
-from html.parser import HTMLParser
-
 class Form:
     def __init__(self):
         self.name = ""
@@ -39,6 +37,8 @@ class MoodleGradeParser(HTMLParser):
         self.rawhtml = None
         self.course = False
         self.grade = False
+        self.cur_link = None
+        self.links = []
         self.data = []
         self.i_fname = None
         self.i_file = None
@@ -66,6 +66,9 @@ class MoodleGradeParser(HTMLParser):
 
     def getData(self):
         return "\n".join(self.data)
+    
+    def getLinks(self):
+        return self.links
         
     def handle_starttag(self, tag, attrs):
         if tag == "span":
@@ -75,14 +78,23 @@ class MoodleGradeParser(HTMLParser):
                         self.course = True
                     elif val == "gaag_grade":
                         self.grade = True
-    
+        elif self.course and tag == "a":
+            for name, val in attrs:
+                if name == "href":
+                    self.cur_link = val
+
     def handle_data(self, data):
+        if self.cur_link:
+            self.links.append(self.cur_link)
+
         if self.course:
-            #print("course: ", data)
             self.data.append(data)
             self.course = False
+            if not self.cur_link:
+                self.links.append('#') # default link
+            self.cur_link = None
+
         elif self.grade:
-            #print("grade: ", data)
             self.data[-1] += " : " + data
             self.grade = False
             

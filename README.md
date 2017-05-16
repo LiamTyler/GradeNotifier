@@ -4,10 +4,11 @@
 
 Python script I built to notify me via email when my grades change. Runs every 10 minutes on my home server and does the following steps:
 
-1. Logs in to my UMN account
-2. Downloads the Moodle page that has my grades on it
-3. Compares it to the last record of the grades
-4. If its different, it sends me an email, which my phone is synched to. Then updates the record of the grades
+1. Logs in to the UMN account using the user / password specified in user_info.txt
+2. Downloads the Moodle page homepage that should have the grades preview on it
+3. Compares it to the last record of the grades it pulled down
+4. If its different, it sends an email to the user specifying which classes were added / changed. Also specifies what the grade used to be, and what is is now, and hyperlinks the detailed grade page.
+5. Updates the record of the grades to reflect the new download
 
 Timed functionality is done via cron job. Rest is done using python libraries.
 
@@ -21,6 +22,12 @@ To run this, you need to do the following:
 or
 
 > python3 grade_checker.py
+
+It will run and email you if your grade changed since last time run.
+4. Set it up so that this script auto runs however frequently you want your grades to be checked (see below for details)
+
+### Allowing this script
+Most gmail accounts will view this script the first time it tries to email you as suspicious. If that happens, it won't let the email through, but it will send you an email saying "if this is you, allow access by clicking this link". It's fine, just follow the link and allow access. It will work on future tries. The first time the program is run (when it doesn't detect a past record of grades saved in grades.txt) it will try to send a welcome email
 
 The first time you run it, just downloads your grades into a file called: "grades.txt". Running it successive times will detect changes in your grades
 
